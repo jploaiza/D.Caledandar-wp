@@ -1,0 +1,46 @@
+# Crear archivo .gitignore
+cat > .gitignore << 'EOF'
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup-db/
+
+# Composer
+vendor/
+composer.phar
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# Archivos de configuración sensibles
+*-config-local.php
+*.sql
+*.sql.gz
+
+# Coverage y tests
+coverage/
+.phpunit.result.cache
+EOF
