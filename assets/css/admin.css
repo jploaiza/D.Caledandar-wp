@@ -1,6 +1,1045 @@
 /**
- * All of the admin-specific styles for the plugin should be added here.
+ * D.Calendar - Admin Styles
+ * Mobile-responsive administration panel styles
+ *
+ * @package    DCalendar
+ * @since      1.0.0
  */
-.reservas-terapia-admin {
-	/* Admin styles */
+
+/* ==========================================================================
+   CSS Variables
+   ========================================================================== */
+
+:root {
+	--rt-primary: #3b82f6;
+	--rt-primary-hover: #2563eb;
+	--rt-primary-light: #dbeafe;
+	--rt-success: #10b981;
+	--rt-success-light: #d1fae5;
+	--rt-warning: #f59e0b;
+	--rt-warning-light: #fef3c7;
+	--rt-danger: #ef4444;
+	--rt-danger-light: #fee2e2;
+	--rt-gray-50: #f9fafb;
+	--rt-gray-100: #f3f4f6;
+	--rt-gray-200: #e5e7eb;
+	--rt-gray-300: #d1d5db;
+	--rt-gray-400: #9ca3af;
+	--rt-gray-500: #6b7280;
+	--rt-gray-600: #4b5563;
+	--rt-gray-700: #374151;
+	--rt-gray-800: #1f2937;
+	--rt-gray-900: #111827;
+	--rt-radius: 8px;
+	--rt-radius-lg: 12px;
+	--rt-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+	--rt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	--rt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   Base Layout
+   ========================================================================== */
+
+.rt-admin-wrapper {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.rt-admin-wrapper h1 {
+	font-size: 24px;
+	font-weight: 600;
+	color: var(--rt-gray-800);
+	margin-bottom: 20px;
+}
+
+.wp-header-end {
+	margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.rt-card {
+	background: #fff;
+	border: 1px solid var(--rt-gray-200);
+	border-radius: var(--rt-radius-lg);
+	padding: 20px;
+	margin-bottom: 20px;
+	box-shadow: var(--rt-shadow);
+}
+
+.rt-card h2,
+.rt-card h3 {
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--rt-gray-800);
+	margin: 0 0 16px 0;
+	padding: 0;
+}
+
+.rt-card h2.title {
+	font-size: 18px;
+	border-bottom: 1px solid var(--rt-gray-200);
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Dashboard
+   ========================================================================== */
+
+.rt-dashboard-widgets {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 20px;
+	margin-bottom: 24px;
+}
+
+.rt-stats-card {
+	text-align: center;
+	padding: 24px;
+	background: linear-gradient(135deg, #fff 0%, var(--rt-gray-50) 100%);
+	border: 1px solid var(--rt-gray-200);
+}
+
+.rt-stats-card h3 {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--rt-gray-500);
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.rt-stat-number {
+	font-size: 36px;
+	font-weight: 700;
+	color: var(--rt-primary);
+	line-height: 1;
+}
+
+.rt-stat-number.negative {
+	color: var(--rt-danger);
+}
+
+.rt-dashboard-charts {
+	margin-bottom: 24px;
+}
+
+.rt-dashboard-charts canvas {
+	max-height: 300px;
+}
+
+.rt-dashboard-lists {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	gap: 20px;
+}
+
+.rt-quick-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid var(--rt-gray-200);
+}
+
+.rt-quick-actions .button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+.wp-list-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.wp-list-table th {
+	font-weight: 600;
+	text-align: left;
+	padding: 12px;
+	background: var(--rt-gray-50);
+	border-bottom: 2px solid var(--rt-gray-200);
+	font-size: 13px;
+	color: var(--rt-gray-600);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.wp-list-table td {
+	padding: 12px;
+	border-bottom: 1px solid var(--rt-gray-200);
+	vertical-align: middle;
+}
+
+.wp-list-table tbody tr:hover {
+	background: var(--rt-gray-50);
+}
+
+.wp-list-table .row-actions {
+	visibility: visible;
+	padding-top: 4px;
+}
+
+.wp-list-table .row-actions a {
+	color: var(--rt-primary);
+	text-decoration: none;
+}
+
+.wp-list-table .row-actions a:hover {
+	color: var(--rt-primary-hover);
+}
+
+.wp-list-table .row-actions .delete,
+.wp-list-table .row-actions .trash {
+	color: var(--rt-danger);
+}
+
+/* ==========================================================================
+   Status Badges
+   ========================================================================== */
+
+.rt-status-badge,
+.status-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: capitalize;
+}
+
+.rt-status-badge.confirmed,
+.status-confirmed,
+.status-badge.status-connected {
+	background: var(--rt-success-light);
+	color: #065f46;
+}
+
+.rt-status-badge.pending,
+.status-pending {
+	background: var(--rt-warning-light);
+	color: #92400e;
+}
+
+.rt-status-badge.cancelled,
+.status-cancelled {
+	background: var(--rt-danger-light);
+	color: #991b1b;
+}
+
+.rt-status-badge.completed,
+.status-completed {
+	background: var(--rt-primary-light);
+	color: #1e40af;
+}
+
+.status-badge.status-disconnected {
+	background: var(--rt-gray-200);
+	color: var(--rt-gray-600);
+}
+
+.rt-status-badge.active,
+.status-active {
+	background: var(--rt-success-light);
+	color: #065f46;
+}
+
+.rt-status-badge.inactive,
+.status-inactive {
+	background: var(--rt-gray-200);
+	color: var(--rt-gray-600);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.rt-form-group {
+	margin-bottom: 16px;
+}
+
+.rt-form-group label {
+	display: block;
+	font-weight: 500;
+	color: var(--rt-gray-700);
+	margin-bottom: 6px;
+	font-size: 14px;
+}
+
+.rt-form-group input[type="text"],
+.rt-form-group input[type="email"],
+.rt-form-group input[type="password"],
+.rt-form-group input[type="number"],
+.rt-form-group input[type="date"],
+.rt-form-group input[type="time"],
+.rt-form-group select,
+.rt-form-group textarea {
+	width: 100%;
+	padding: 8px 12px;
+	border: 1px solid var(--rt-gray-300);
+	border-radius: var(--rt-radius);
+	font-size: 14px;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rt-form-group input:focus,
+.rt-form-group select:focus,
+.rt-form-group textarea:focus {
+	border-color: var(--rt-primary);
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+	outline: none;
+}
+
+.rt-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+}
+
+.form-table th {
+	padding: 16px 10px 16px 0;
+	width: 200px;
+	vertical-align: top;
+}
+
+.form-table td {
+	padding: 12px 10px;
+}
+
+.form-table .regular-text {
+	width: 100%;
+	max-width: 400px;
+}
+
+.required {
+	color: var(--rt-danger);
+}
+
+/* ==========================================================================
+   Toggle Switch
+   ========================================================================== */
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 48px;
+	height: 26px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--rt-gray-300);
+	transition: 0.3s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 20px;
+	width: 20px;
+	left: 3px;
+	bottom: 3px;
+	background-color: white;
+	transition: 0.3s;
+	box-shadow: var(--rt-shadow);
+}
+
+input:checked+.slider {
+	background-color: var(--rt-primary);
+}
+
+input:focus+.slider {
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+input:checked+.slider:before {
+	transform: translateX(22px);
+}
+
+.slider.round {
+	border-radius: 26px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+/* ==========================================================================
+   Modal
+   ========================================================================== */
+
+.rt-modal {
+	display: none;
+	position: fixed;
+	z-index: 100001;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(2px);
+	overflow-y: auto;
+	padding: 40px 20px;
+	box-sizing: border-box;
+}
+
+.rt-modal-content {
+	background-color: #fff;
+	margin: 0 auto;
+	padding: 24px;
+	border-radius: var(--rt-radius-lg);
+	max-width: 600px;
+	width: 100%;
+	box-shadow: var(--rt-shadow-lg);
+	position: relative;
+	animation: rtModalFadeIn 0.2s ease-out;
+}
+
+@keyframes rtModalFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.rt-modal-content h2 {
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--rt-gray-800);
+	margin: 0 0 20px 0;
+	padding-right: 30px;
+}
+
+.rt-close-modal {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	font-size: 28px;
+	font-weight: 400;
+	color: var(--rt-gray-400);
+	cursor: pointer;
+	line-height: 1;
+	transition: color 0.2s;
+}
+
+.rt-close-modal:hover {
+	color: var(--rt-gray-600);
+}
+
+.rt-modal-actions {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+	margin-top: 24px;
+	padding-top: 20px;
+	border-top: 1px solid var(--rt-gray-200);
+}
+
+/* ==========================================================================
+   Services Page
+   ========================================================================== */
+
+#rt-services-list-container .wp-list-table .service-color {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 4px;
+	vertical-align: middle;
+	margin-right: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Schedules Page
+   ========================================================================== */
+
+.rt-schedule-container {
+	max-width: 900px;
+}
+
+.rt-schedule-table {
+	width: 100%;
+}
+
+.rt-schedule-table thead th {
+	text-align: left;
+	padding: 12px 10px;
+	font-size: 13px;
+	color: var(--rt-gray-600);
+	border-bottom: 2px solid var(--rt-gray-200);
+}
+
+.rt-schedule-row td {
+	padding: 12px 10px;
+	border-bottom: 1px solid var(--rt-gray-200);
+	vertical-align: middle;
+}
+
+.rt-schedule-row input[type="time"],
+.rt-schedule-row select {
+	padding: 8px;
+	border: 1px solid var(--rt-gray-300);
+	border-radius: var(--rt-radius);
+}
+
+.rt-schedule-row input:disabled,
+.rt-schedule-row select:disabled {
+	background: var(--rt-gray-100);
+	color: var(--rt-gray-400);
+	cursor: not-allowed;
+}
+
+.rt-schedule-preview {
+	margin-top: 24px;
+	padding-top: 24px;
+	border-top: 1px solid var(--rt-gray-200);
+}
+
+.rt-schedule-preview h3 {
+	margin-bottom: 12px;
+}
+
+#rt-slots-preview-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.rt-slot-preview {
+	background: var(--rt-primary-light);
+	color: var(--rt-primary);
+	padding: 6px 12px;
+	border-radius: 20px;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+/* ==========================================================================
+   Bookings Page
+   ========================================================================== */
+
+.tablenav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.tablenav .actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.tablenav select,
+.tablenav input[type="date"],
+.tablenav input[type="text"] {
+	padding: 6px 10px;
+	border: 1px solid var(--rt-gray-300);
+	border-radius: var(--rt-radius);
+}
+
+.tablenav-pages {
+	margin-left: auto;
+}
+
+.displaying-num {
+	color: var(--rt-gray-500);
+	font-size: 13px;
+}
+
+.rt-pagination {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.rt-pagination button {
+	padding: 6px 12px;
+}
+
+.rt-pagination .current-page {
+	padding: 4px 8px;
+	min-width: 40px;
+	text-align: center;
+}
+
+/* ==========================================================================
+   Alerts Page
+   ========================================================================== */
+
+.rt-alerts-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.rt-alert-item {
+	border: 1px solid var(--rt-gray-200);
+	border-radius: var(--rt-radius);
+	overflow: hidden;
+}
+
+.rt-alert-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px;
+	background: var(--rt-gray-50);
+}
+
+.rt-alert-header h3 {
+	margin: 0;
+	font-size: 15px;
+}
+
+.rt-alert-body {
+	padding: 20px;
+	border-top: 1px solid var(--rt-gray-200);
+	background: #fff;
+}
+
+.rt-alert-body .form-table {
+	margin: 0;
+}
+
+.rt-btn-expand-alert {
+	margin-top: 0;
+}
+
+.rt-alert-header+.rt-btn-expand-alert {
+	margin: 12px 16px 16px;
+}
+
+/* ==========================================================================
+   Integrations Page
+   ========================================================================== */
+
+.rt-integrations-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	gap: 20px;
+}
+
+.integration-card {
+	padding: 24px;
+}
+
+.integration-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--rt-gray-200);
+}
+
+.integration-header h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.integration-icon {
+	font-size: 28px;
+	color: var(--rt-primary);
+}
+
+.integration-card p {
+	color: var(--rt-gray-600);
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+
+.integration-card .rt-form-group {
+	margin-bottom: 12px;
+}
+
+.section-btn {
+	margin-top: 12px;
+}
+
+.rt-action-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 16px;
+}
+
+/* ==========================================================================
+   Integration Tabs
+   ========================================================================== */
+
+.rt-tabs {
+	display: flex;
+	gap: 0;
+	border-bottom: 2px solid var(--rt-gray-200);
+	margin-bottom: 20px;
+}
+
+.rt-tab {
+	padding: 12px 20px;
+	cursor: pointer;
+	font-weight: 500;
+	color: var(--rt-gray-500);
+	border-bottom: 2px solid transparent;
+	margin-bottom: -2px;
+	transition: all 0.2s;
+}
+
+.rt-tab:hover {
+	color: var(--rt-gray-700);
+}
+
+.rt-tab.active {
+	color: var(--rt-primary);
+	border-bottom-color: var(--rt-primary);
+}
+
+.rt-tab-content {
+	display: none;
+}
+
+.rt-tab-content.active {
+	display: block;
+}
+
+/* ==========================================================================
+   Spinners & Loading
+   ========================================================================== */
+
+.spinner {
+	visibility: hidden;
+	float: none;
+	margin: 0 0 0 8px;
+}
+
+.is-active .spinner,
+.spinner.is-active {
+	visibility: visible;
+}
+
+.rt-loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 40px;
+	color: var(--rt-gray-500);
+}
+
+.rt-loading::before {
+	content: "";
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--rt-gray-300);
+	border-top-color: var(--rt-primary);
+	border-radius: 50%;
+	animation: rtSpin 0.8s linear infinite;
+	margin-right: 10px;
+}
+
+@keyframes rtSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.button-danger,
+.button.button-danger {
+	background: var(--rt-danger);
+	border-color: var(--rt-danger);
+	color: #fff;
+}
+
+.button-danger:hover,
+.button.button-danger:hover {
+	background: #dc2626;
+	border-color: #dc2626;
+	color: #fff;
+}
+
+/* ==========================================================================
+   Notices
+   ========================================================================== */
+
+.rt-notice {
+	padding: 12px 16px;
+	border-radius: var(--rt-radius);
+	margin-bottom: 16px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.rt-notice-success {
+	background: var(--rt-success-light);
+	color: #065f46;
+	border: 1px solid #a7f3d0;
+}
+
+.rt-notice-error {
+	background: var(--rt-danger-light);
+	color: #991b1b;
+	border: 1px solid #fecaca;
+}
+
+.rt-notice-warning {
+	background: var(--rt-warning-light);
+	color: #92400e;
+	border: 1px solid #fde68a;
+}
+
+/* ==========================================================================
+   Color Picker
+   ========================================================================== */
+
+.rt-color-field {
+	width: 80px !important;
+}
+
+.wp-picker-container {
+	display: inline-block;
+}
+
+.wp-picker-container .wp-color-result.button {
+	margin: 0;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media screen and (max-width: 1200px) {
+	.rt-dashboard-lists {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.rt-admin-wrapper {
+		padding: 15px;
+	}
+
+	.rt-dashboard-widgets {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+	}
+
+	.rt-stats-card {
+		padding: 16px;
+	}
+
+	.rt-stat-number {
+		font-size: 28px;
+	}
+
+	.rt-grid-2 {
+		grid-template-columns: 1fr;
+	}
+
+	.rt-integrations-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.rt-modal-content {
+		margin: 0;
+		padding: 20px;
+		border-radius: var(--rt-radius);
+	}
+
+	.form-table th {
+		display: block;
+		width: 100%;
+		padding: 10px 0;
+	}
+
+	.form-table td {
+		display: block;
+		padding: 0 0 15px 0;
+	}
+
+	.tablenav {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.tablenav-pages {
+		margin-left: 0;
+		margin-top: 10px;
+	}
+
+	/* Table responsive */
+	.wp-list-table thead {
+		display: none;
+	}
+
+	.wp-list-table tbody tr {
+		display: block;
+		padding: 12px;
+		margin-bottom: 12px;
+		border: 1px solid var(--rt-gray-200);
+		border-radius: var(--rt-radius);
+	}
+
+	.wp-list-table tbody td {
+		display: flex;
+		justify-content: space-between;
+		padding: 8px 0;
+		border: none;
+		border-bottom: 1px solid var(--rt-gray-100);
+	}
+
+	.wp-list-table tbody td:last-child {
+		border-bottom: none;
+	}
+
+	.wp-list-table tbody td::before {
+		content: attr(data-label);
+		font-weight: 600;
+		color: var(--rt-gray-600);
+		margin-right: 10px;
+	}
+
+	.wp-list-table .column-cb {
+		display: none;
+	}
+
+	.rt-schedule-table thead {
+		display: none;
+	}
+
+	.rt-schedule-row {
+		display: block;
+		padding: 16px;
+		margin-bottom: 12px;
+		border: 1px solid var(--rt-gray-200);
+		border-radius: var(--rt-radius);
+	}
+
+	.rt-schedule-row td {
+		display: block;
+		padding: 8px 0;
+		border: none;
+	}
+
+	.rt-schedule-row td:first-child {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.rt-tabs {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.rt-tab {
+		white-space: nowrap;
+		padding: 10px 16px;
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.rt-dashboard-widgets {
+		grid-template-columns: 1fr;
+	}
+
+	.rt-stats-card h3 {
+		font-size: 12px;
+	}
+
+	.rt-stat-number {
+		font-size: 24px;
+	}
+
+	.rt-modal {
+		padding: 20px 10px;
+	}
+
+	.rt-modal-content {
+		padding: 16px;
+	}
+
+	.rt-quick-actions {
+		flex-direction: column;
+	}
+
+	.rt-quick-actions .button {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.rt-action-buttons {
+		flex-direction: column;
+	}
+
+	.rt-action-buttons .button {
+		width: 100%;
+		text-align: center;
+	}
+
+	.rt-alert-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+	.rt-admin-wrapper {
+		max-width: 100%;
+	}
+
+	.rt-modal,
+	.rt-quick-actions,
+	.tablenav .actions,
+	.row-actions,
+	.button {
+		display: none !important;
+	}
+
+	.rt-card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+		page-break-inside: avoid;
+	}
 }

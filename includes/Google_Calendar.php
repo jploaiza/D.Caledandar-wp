@@ -54,7 +54,7 @@ class Google_Calendar
     public function __construct()
     {
         $this->client = new Client();
-        $this->client->setApplicationName('Reservas Terapia Plugin');
+        $this->client->setApplicationName('D.Calendar Plugin');
         $this->client->setScopes(Calendar::CALENDAR);
         $this->client->setAccessType('offline');
         $this->client->setPrompt('select_account consent');

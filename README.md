@@ -1,4 +1,4 @@
-# 🗓️ Reservas Terapia - WordPress Plugin
+# 🗓️ D.Calendar - WordPress Plugin
 
 Plugin profesional de WordPress para gestión de reservas y agendamiento con integración a Google Calendar, Zoom y WhatsApp.
 
@@ -30,7 +30,7 @@ Plugin profesional de WordPress para gestión de reservas y agendamiento con int
 1. Descarga el plugin desde [Releases](https://github.com/jploaiza/D.Caledandar-wp/releases)
 2. Sube el archivo ZIP en WordPress: `Plugins > Añadir Nuevo > Subir Plugin`
 3. Activa el plugin
-4. Ve a `Reservas Terapia > Ajustes` para configurar
+4. Ve a `D.Calendar > Ajustes` para configurar
 
 ### Para Desarrolladores
 ```bash
@@ -42,7 +42,7 @@ cd D.Caledandar-wp
 composer install
 
 # Copiar a WordPress
-cp -r . /ruta/a/wordpress/wp-content/plugins/reservas-terapia/
+cp -r . /ruta/a/wordpress/wp-content/plugins/d-calendar/
 ```
 
 ## ⚙️ Configuración
@@ -60,7 +60,7 @@ cp -r . /ruta/a/wordpress/wp-content/plugins/reservas-terapia/
 1. Ir a [Zoom Marketplace](https://marketplace.zoom.us/)
 2. Crear OAuth App
 3. Configurar Event Subscriptions:
-   - URL: `https://tusitio.com/wp-json/reservas-terapia/v1/zoom-webhook`
+   - URL: `https://tusitio.com/wp-json/d-calendar/v1/zoom-webhook`
    - Events: `meeting.started`, `meeting.ended`, `participant.joined`, `participant.left`
 4. Copiar Client ID, Secret y Webhook Secret
 5. Pegar en: `Integraciones > Zoom`
@@ -70,7 +70,7 @@ cp -r . /ruta/a/wordpress/wp-content/plugins/reservas-terapia/
 1. Ir a [Twilio Console](https://console.twilio.com/)
 2. Activar WhatsApp Sandbox o solicitar número de producción
 3. Configurar webhook:
-   - URL: `https://tusitio.com/wp-json/reservas-terapia/v1/twilio-webhook`
+   - URL: `https://tusitio.com/wp-json/d-calendar/v1/twilio-webhook`
    - Método: POST
 4. Copiar Account SID y Auth Token
 5. Pegar en: `Integraciones > Twilio`
@@ -98,7 +98,7 @@ $result = $booking->create_booking($data);
 ```
 
 ## 🏗️ Arquitectura
-reservas-terapia/
+d-calendar/
 ├── admin/                  # Panel de administración
 │   ├── css/
 │   ├── js/
@@ -119,7 +119,7 @@ reservas-terapia/
 │   └── partials/
 ├── tests/                  # Tests manuales
 ├── docs/                   # Documentación
-└── reservas-terapia.php   # Archivo principal
+└── d-calendar.php         # Archivo principal
 
 ## 🧪 Testing
 ```bash

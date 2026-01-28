@@ -1,8 +1,8 @@
 <?php
 /**
- * Zoom Integration for Reservas Terapia
+ * Zoom Integration for D.Calendar
  *
- * @package ReservasTerapia
+ * @package DCalendar
  */
 
 namespace ReservasTerapia;

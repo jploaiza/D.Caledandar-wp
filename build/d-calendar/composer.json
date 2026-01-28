@@ -1,0 +1,31 @@
+{
+  "name": "jploaiza/d-calendar",
+  "description": "WordPress Plugin for Booking and Scheduling",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "JPL",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "google/apiclient": "^2.15",
+    "twilio/sdk": "^7.0",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "require-dev": {
+    "php-stubs/wordpress-stubs": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ReservasTerapia\\": "includes/",
+      "ReservasTerapia\\Admin\\": "admin/",
+      "ReservasTerapia\\Frontend\\": "public/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}

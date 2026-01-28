@@ -1,6 +1,6 @@
 {
-  "name": "jploaiza/reservas-terapia",
-  "description": "WordPress Plugin for Therapy Reservations",
+  "name": "jploaiza/d-calendar",
+  "description": "WordPress Plugin for Booking and Scheduling",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "authors": [

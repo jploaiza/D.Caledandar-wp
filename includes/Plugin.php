@@ -94,7 +94,7 @@ class Plugin
 	 */
 	private function __construct()
 	{
-		$this->plugin_name = 'reservas-terapia';
+		$this->plugin_name = 'd-calendar';
 		$this->version = RT_VERSION;
 
 		$this->load_dependencies();
@@ -250,11 +250,10 @@ class Plugin
 	public static function activate()
 	{
 		// Activation logic here (e.g., create DB tables)
-		require_once plugin_dir_path(__FILE__) . 'class-database.php';
+		// Classes are autoloaded via Composer PSR-4
 		$database = new Database();
 		$database->create_tables();
 
-		require_once plugin_dir_path(__FILE__) . 'class-booking-management.php';
 		$booking = new Booking_Management();
 		$booking->register_rewrite_rules();
 		flush_rewrite_rules();

@@ -3,9 +3,9 @@
  * Database Management Class
  *
  * Handles the creation, update, and management of custom database tables
- * for the Reservas Terapia plugin.
+ * for the D.Calendar plugin.
  *
- * @package ReservasTerapia
+ * @package DCalendar
  */
 
 namespace ReservasTerapia;

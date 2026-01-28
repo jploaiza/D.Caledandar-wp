@@ -3,9 +3,9 @@
  * Twilio WhatsApp Integration Class
  *
  * Handles sending messages, managing templates, scheduling, and processing webhooks
- * for the Reservas Terapia plugin.
+ * for the D.Calendar plugin.
  *
- * @package ReservasTerapia
+ * @package DCalendar
  */
 
 namespace ReservasTerapia;
@@ -294,7 +294,7 @@ class Twilio_Whatsapp
      */
     public function register_routes()
     {
-        register_rest_route('reservas-terapia/v1', '/twilio-webhook', array(
+        register_rest_route('d-calendar/v1', '/twilio-webhook', array(
             'methods' => 'POST',
             'callback' => array($this, 'handle_webhook'),
             'permission_callback' => '__return_true', // Validation happens via Twilio Signature if implemented, or checking params
@@ -341,7 +341,7 @@ class Twilio_Whatsapp
         // Reconstruir URL completa del webhook
         // Nota: home_url() + ruta debe coincidir exactamente con lo configurado en Twilio
         // Podría necesitar ajustes si hay proxy o HTTPS forzado diferentemente
-        $url = home_url('/wp-json/reservas-terapia/v1/twilio-webhook');
+        $url = home_url('/wp-json/d-calendar/v1/twilio-webhook');
 
         // Obtener parámetros POST
         $params = $request->get_params();
