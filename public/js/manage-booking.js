@@ -1,115 +1,207 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Modal Logic
-    const cancelModal = document.getElementById('rt-cancel-modal');
-    const rescheduleModal = document.getElementById('rt-reschedule-modal');
+/**
+ * Gestión de Reservas - Frontend
+ */
+(function () {
+    'use strict';
 
-    const btnCancel = document.getElementById('btn-cancel-modal');
-    const btnReschedule = document.getElementById('btn-reschedule-modal');
+    // Obtener token de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const codigo = urlParams.get('codigo');
+    const token = urlParams.get('token');
 
-    const btnCloseCancel = document.querySelector('.rt-close');
-    const btnCloseReschedule = document.querySelector('.rt-close-reschedule');
-    const btnKeep = document.getElementById('btn-close-cancel');
+    // Determinar acción según la página actual
+    const currentPath = window.location.pathname;
+    let action = '';
 
-    if (btnCancel) {
-        btnCancel.onclick = function () { cancelModal.classList.add('active'); };
+    if (currentPath.includes('cancelar-reserva')) {
+        action = 'cancel';
+    } else if (currentPath.includes('reagendar-reserva')) {
+        action = 'reschedule';
     }
 
-    if (btnReschedule) {
-        btnReschedule.onclick = function () { rescheduleModal.classList.add('active'); };
+    // Validar que tenemos código y token
+    if (!codigo || !token) {
+        showError('Link incompleto o inválido. Verifica que hayas copiado el link completo del email.');
+        // Deshabilitar botones si existen
+        const confirmCancelBtn = document.getElementById('confirm-cancel-btn');
+        const confirmRescheduleBtn = document.getElementById('confirm-reschedule-btn');
+        if (confirmCancelBtn) confirmCancelBtn.disabled = true;
+        if (confirmRescheduleBtn) confirmRescheduleBtn.disabled = true;
+        return;
     }
 
-    // Close Modals
-    function closeModal() {
-        if (cancelModal) cancelModal.classList.remove('active');
-        if (rescheduleModal) rescheduleModal.classList.remove('active');
+    /**
+     * Cancela una reserva
+     */
+    function cancelBooking(motivo = '') {
+        const confirmBtn = document.getElementById('confirm-cancel-btn');
+        const spinner = document.getElementById('loading-spinner');
+
+        // Mostrar loading
+        if (confirmBtn) confirmBtn.disabled = true;
+        if (spinner) spinner.style.display = 'block';
+
+        fetch(reservasTerapia.apiUrl + '/bookings/' + codigo + '/cancel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': reservasTerapia.nonce,
+                'X-Action-Token': token
+            },
+            body: JSON.stringify({
+                motivo: motivo
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Error al cancelar');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Éxito
+                showSuccess('Reserva cancelada exitosamente');
+
+                // Redirigir a página de confirmación
+                setTimeout(() => {
+                    window.location.href = '/reserva-cancelada/?codigo=' + codigo;
+                }, 2000);
+            })
+            .catch(error => {
+                handleApiError(error);
+            })
+            .finally(() => {
+                if (confirmBtn) confirmBtn.disabled = false;
+                if (spinner) spinner.style.display = 'none';
+            });
     }
 
-    if (btnCloseCancel) btnCloseCancel.onclick = closeModal;
-    if (btnCloseReschedule) btnCloseReschedule.onclick = closeModal;
-    if (btnKeep) btnKeep.onclick = closeModal;
+    /**
+     * Reagenda una reserva
+     */
+    function rescheduleBooking(nuevaFecha, nuevaHora, timezone) {
+        const confirmBtn = document.getElementById('confirm-reschedule-btn');
+        const spinner = document.getElementById('loading-spinner');
 
-    window.onclick = function (event) {
-        if (event.target == cancelModal || event.target == rescheduleModal) {
-            closeModal();
+        if (confirmBtn) confirmBtn.disabled = true;
+        if (spinner) spinner.style.display = 'block';
+
+        fetch(reservasTerapia.apiUrl + '/bookings/' + codigo + '/reschedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': reservasTerapia.nonce,
+                'X-Action-Token': token
+            },
+            body: JSON.stringify({
+                fecha: nuevaFecha,
+                hora: nuevaHora,
+                timezone: timezone
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Error al reagendar');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showSuccess('Reserva reagendada exitosamente');
+
+                // Mostrar comparación de fechas si existe la función, o recargar
+                if (typeof displayRescheduleConfirmation === 'function') {
+                    displayRescheduleConfirmation(data);
+                } else {
+                    // Fallback si no existe la función UI específica
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                handleApiError(error);
+            })
+            .finally(() => {
+                if (confirmBtn) confirmBtn.disabled = false;
+                if (spinner) spinner.style.display = 'none';
+            });
+    }
+
+    /**
+     * Maneja errores de API con mensajes específicos
+     */
+    function handleApiError(error) {
+        const message = error.message || 'Error desconocido';
+        console.error('API Error:', error);
+
+        // Errores específicos de tokens
+        if (message.includes('Token inválido') || message.includes('expirado') || message.includes('Invalid token')) {
+            showError(
+                'El link ha expirado o ya fue utilizado. ' +
+                'Los links de gestión solo pueden usarse una vez. ' +
+                'Si necesitas hacer cambios, contacta con nosotros.'
+            );
+        } else if (message.includes('Rate limit')) {
+            showError(
+                'Has realizado demasiados intentos. ' +
+                'Por favor espera un minuto antes de reintentar.'
+            );
+        } else if (message.includes('Token de autorización requerido') || message.includes('Missing token')) {
+            showError(
+                'Link de seguridad no válido. ' +
+                'Asegúrate de usar el link completo que recibiste por email.'
+            );
+        } else {
+            showError('Error: ' + message);
         }
     }
 
-    // API Handling
-    const btnConfirmCancel = document.getElementById('btn-confirm-cancel');
-    const btnConfirmReschedule = document.getElementById('btn-confirm-reschedule');
-
-    if (btnConfirmCancel) {
-        btnConfirmCancel.onclick = function () {
-            const code = this.getAttribute('data-code');
-            const reason = document.getElementById('cancel-reason').value;
-
-            btnConfirmCancel.disabled = true;
-            btnConfirmCancel.innerText = 'Procesando...';
-
-            fetch(rt_booking_config.api_url + code + '/cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-WP-Nonce': rt_booking_config.nonce
-                },
-                body: JSON.stringify({ motivo: reason })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Reserva cancelada exitosamente.');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + (data.message || 'No se pudo cancelar.'));
-                        btnConfirmCancel.disabled = false;
-                        btnConfirmCancel.innerText = 'Sí, cancelar';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error de conexión.');
-                    btnConfirmCancel.disabled = false;
-                    btnConfirmCancel.innerText = 'Sí, cancelar';
-                });
-        };
+    /**
+     * Muestra mensaje de error
+     */
+    function showError(message) {
+        const errorDiv = document.getElementById('error-message');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.style.padding = '15px';
+            errorDiv.style.background = '#f8d7da';
+            errorDiv.style.border = '1px solid #f5c6cb';
+            errorDiv.style.borderRadius = '4px';
+            errorDiv.style.color = '#721c24';
+            errorDiv.style.marginBottom = '20px';
+            // Scroll to error
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            alert(message);
+        }
     }
 
-    // Simple Reschedule Logic (can be expanded)
-    if (btnConfirmReschedule) {
-        btnConfirmReschedule.onclick = function () {
-            const code = this.getAttribute('data-code');
-            const newDate = document.getElementById('id_new_date').value;
-
-            if (!newDate) {
-                alert('Por favor selecciona una fecha.');
-                return;
-            }
-
-            btnConfirmReschedule.disabled = true;
-            btnConfirmReschedule.innerText = 'Procesando...';
-
-            fetch(rt_booking_config.api_url + code + '/reschedule', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-WP-Nonce': rt_booking_config.nonce
-                },
-                body: JSON.stringify({
-                    nueva_fecha_hora: newDate,
-                    nueva_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Reserva reagendada exitosamente.');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + (data.message || 'No se pudo reagendar.'));
-                        btnConfirmReschedule.disabled = false;
-                        btnConfirmReschedule.innerText = 'Confirmar Reagendamiento';
-                    }
-                });
-        };
+    /**
+     * Muestra mensaje de éxito
+     */
+    function showSuccess(message) {
+        const successDiv = document.getElementById('success-message');
+        if (successDiv) {
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            successDiv.style.padding = '15px';
+            successDiv.style.background = '#d4edda';
+            successDiv.style.border = '1px solid #c3e6cb';
+            successDiv.style.borderRadius = '4px';
+            successDiv.style.color = '#155724';
+            successDiv.style.marginBottom = '20px';
+            // Scroll to success
+            successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
-});
+
+    // Exponer funciones globalmente
+    window.reservasManagement = {
+        cancelBooking,
+        rescheduleBooking
+    };
+
+})();

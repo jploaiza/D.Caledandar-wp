@@ -49,7 +49,7 @@ if (file_exists(RT_PATH . 'vendor/autoload.php')) {
 	require RT_PATH . 'vendor/autoload.php';
 }
 
-require_once RT_PATH . 'includes/class-zoom.php';
+
 
 /**
  * The code that runs during plugin activation.

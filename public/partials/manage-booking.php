@@ -144,7 +144,8 @@ $can_modify = ($booking->estado === 'confirmada' && $is_upcoming);
     // Simple pass of variables to JS
     var rt_booking_config = {
         api_url: '<?php echo esc_url(rest_url('rt/v1/bookings/')); ?>',
-        nonce: '<?php echo wp_create_nonce('wp_rest'); ?>'
+        nonce: '<?php echo wp_create_nonce('wp_rest'); ?>',
+        token: '<?php echo isset($_GET['token']) ? esc_js(sanitize_text_field($_GET['token'])) : ''; ?>'
     };
 </script>
 
